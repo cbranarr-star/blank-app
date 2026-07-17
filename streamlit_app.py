@@ -3,7 +3,7 @@ import requests
 from streamlit_lottie import st_lottie
 
 # Configuración de página
-st.set_page_config(page_title="Portafolio - Cristian Bran", layout="wide")
+st.set_page_config(page_title="Portafolio - Cristian Camilo Bran Arriaga", layout="wide")
 
 # Función para cargar animación Lottie de forma segura
 def load_lottieurl(url):
@@ -30,7 +30,7 @@ st.markdown("""
 # Cabecera
 col1, col2 = st.columns([2, 1])
 with col1:
-    st.title("Cristian Bran")
+    st.title("Cristian Camilo Bran Arriaga")
     st.subheader("Construye puentes entre redes, datos e IA.")
     st.write("Ingeniero en Telecomunicaciones y Analista de Inteligencia de Negocios. Transformando infraestructura en decisiones estratégicas[cite: 4].")
     st.markdown('<a href="#trayectoria" class="btn btn-primary">Ver trayectoria</a>', unsafe_allow_html=True)
@@ -46,8 +46,8 @@ st.divider()
 st.header("Trayectoria Profesional")
 experiencias = [
     ("Analista de Inteligencia de Negocios", "Savia Salud EPS", "Generación de informes estratégicos y automatización con Python y Power BI."),
-    ("Analista de Infraestructura", "Savia Salud EPS", "Gestión de servidores, redes MPLS y administración de VPN Fortigate[cite: 4]."),
-    ("Agente Mesa de Servicios", "Comware", "Soporte especializado a redes MPLS y monitoreo en plataformas BMC Remedy[cite: 4].")
+    ("Analista de Infraestructura", "Savia Salud EPS", "Gestión de servidores, redes MPLS y administración de VPN Fortigate."),
+    ("Agente Mesa de Servicios", "Comware", "Soporte especializado a redes MPLS y monitoreo en plataformas BMC Remedy.")
 ]
 
 for titulo, org, desc in experiencias:
