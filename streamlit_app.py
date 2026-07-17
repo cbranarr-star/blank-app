@@ -10,13 +10,13 @@ seccion = st.sidebar.radio("Ir a:", ["Sobre Mí", "Experiencia", "Habilidades", 
 
 # --- SECCIÓN: SOBRE MÍ ---
 if seccion == "Sobre Mí":
-    st.title("¡Hola! Soy [Tu Nombre]")
-    st.subheader("Profesional en [Tu Profesión / Especialidad]")
+    st.title("¡Hola! Soy Cristian Camilo Bran Arriaga")
+    st.subheader("Profesional en Telecomunicaciones y Especialista en BI e Big Data")
     
     col1, col2 = st.columns([1, 2])
     with col1:
         # Aquí puedes agregar una foto tuya
-        st.image("https://via.placeholder.com/300", caption="[Tu Nombre]")
+        st.image("https://via.placeholder.com/300", caption="Cristian Camilo Bran Arriaga")
     with col2:
         st.write("""
         Bienvenido a mi portafolio interactivo. Aquí puedes encontrar un resumen de mi 
@@ -93,4 +93,4 @@ elif seccion == "Portafolio de Dashboards":
 
 # Pie de página
 st.sidebar.divider()
-st.sidebar.write("Contacto: [Tu Correo] | [Tu LinkedIn]")
+st.sidebar.write("Contacto: ccbran1998@hotmail.com | https://www.linkedin.com/in/cristian-camilo-bran-arriaga-b1074730b ")
