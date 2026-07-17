@@ -1,77 +1,96 @@
 import streamlit as st
 import pandas as pd
 
-# Configuración de la página
-st.set_page_config(page_title="Control de Gastos Quincenales", page_icon="💰")
+# Configuración inicial de la página
+st.set_page_config(page_title="Mi Portafolio Interactivo", page_icon="💼", layout="wide")
 
-st.title("💰 Mi Control Quincenal")
+# Menú de navegación lateral
+st.sidebar.title("Navegación")
+seccion = st.sidebar.radio("Ir a:", ["Sobre Mí", "Experiencia", "Habilidades", "Portafolio de Dashboards"])
 
-# 1. Inicialización del estado de la aplicación
-if 'gastos' not in st.session_state:
-    st.session_state.gastos = []
-
-# 2. Entrada de Salario
-with st.sidebar:
-    st.header("Presupuesto")
-    salario_inicial = st.number_input("Salario Quincenal:", min_value=0.0, step=100.0, value=1000.0)
+# --- SECCIÓN: SOBRE MÍ ---
+if seccion == "Sobre Mí":
+    st.title("¡Hola! Soy [Tu Nombre]")
+    st.subheader("Profesional en [Tu Profesión / Especialidad]")
     
-    st.divider()
-    if st.button("Limpiar todos los datos"):
-        st.session_state.gastos = []
-        st.rerun()
-
-# 3. Formulario para agregar gastos
-st.subheader("Registrar Nuevo Gasto")
-with st.form("nuevo_gasto"):
-    col1, col2, col3 = st.columns([2, 1, 1])
-    
+    col1, col2 = st.columns([1, 2])
     with col1:
-        nombre = st.text_input("Concepto / Descripción")
+        # Aquí puedes agregar una foto tuya
+        st.image("https://via.placeholder.com/300", caption="[Tu Nombre]")
     with col2:
-        monto = st.number_input("Monto", min_value=0.0, step=1.0)
-    with col3:
-        categoria = st.selectbox("Categoría", ["Vivienda", "Comida", "Transporte", "Ocio", "Servicios", "Otros"])
+        st.write("""
+        Bienvenido a mi portafolio interactivo. Aquí puedes encontrar un resumen de mi 
+        trayectoria profesional, mis habilidades técnicas y los proyectos en los que he trabajado.
+        
+        Soy una persona apasionada por [tus intereses profesionales], con capacidad para 
+        [tu principal propuesta de valor].
+        """)
+        st.download_button(
+            label="📄 Descargar CV en PDF",
+            data="Archivo PDF simulado", # Aquí enlazaremos tu PDF real
+            file_name="hoja_de_vida.pdf",
+            mime="application/pdf"
+        )
+
+# --- SECCIÓN: EXPERIENCIA ---
+elif seccion == "Experiencia":
+    st.title("Experiencia Profesional")
     
-    submit = st.form_submit_button("Agregar Gasto")
+    # Ejemplo de experiencia 1
+    st.subheader("Rol / Cargo en [Empresa 1]")
+    st.caption("Mes Año – Presente | Ubicación")
+    st.write("""
+    * Logro destacado o responsabilidad clave número 1.
+    * Logro destacado o responsabilidad clave número 2.
+    """)
+    
+    st.divider() # Línea divisoria
+    
+    # Ejemplo de experiencia 2
+    st.subheader("Rol / Cargo en [Empresa 2]")
+    st.caption("Mes Año – Mes Año | Ubicación")
+    st.write("""
+    * Logro destacado o responsabilidad clave número 1.
+    * Logro destacado o responsabilidad clave número 2.
+    """)
 
-    if submit:
-        if nombre and monto > 0:
-            st.session_state.gastos.append({
-                "Concepto": nombre,
-                "Monto": monto,
-                "Categoría": categoria
-            })
-            st.success("¡Gasto agregado!")
-        else:
-            st.error("Por favor, introduce un nombre y un monto válido.")
+# --- SECCIÓN: HABILIDADES ---
+elif seccion == "Habilidades":
+    st.title("Conocimientos y Herramientas")
+    
+    st.write("A lo largo de mi carrera, he desarrollado competencias en las siguientes áreas:")
+    
+    # Tabla interactiva para mostrar habilidades
+    datos_habilidades = pd.DataFrame({
+        "Categoría": ["Lenguajes", "Visualización", "Bases de Datos", "Soft Skills"],
+        "Herramientas": ["Python, SQL", "Power BI, Streamlit", "PostgreSQL, MySQL", "Liderazgo, Comunicación"]
+    })
+    
+    st.table(datos_habilidades)
+    
+    st.subheader("Nivel de Dominio Técnico")
+    st.progress(90, text="Python")
+    st.progress(85, text="SQL")
+    st.progress(70, text="Power BI")
 
-# 4. Cálculos y Visualización
-df_gastos = pd.DataFrame(st.session_state.gastos)
+# --- SECCIÓN: DASHBOARDS ---
+elif seccion == "Portafolio de Dashboards":
+    st.title("Mis Proyectos y Dashboards")
+    st.write("Explora algunos de los dashboards que he construido localmente y adaptado para la web.")
+    
+    tab1, tab2 = st.tabs(["Dashboard de Ventas", "Análisis de Clientes"])
+    
+    with tab1:
+        st.subheader("Análisis de Ventas 2023")
+        st.write("En este proyecto analicé el rendimiento de ventas utilizando X herramientas.")
+        # Aquí podemos integrar un gráfico real de Streamlit o una imagen de tu dashboard local
+        st.info("Espacio reservado para integrar el código de tu dashboard local o un iframe.")
+        
+    with tab2:
+        st.subheader("Segmentación de Clientes")
+        st.write("Aplicación de modelos de agrupación para encontrar nichos de mercado.")
+        st.info("Espacio reservado para tu segundo dashboard.")
 
-if not df_gastos.empty:
-    total_gastado = df_gastos["Monto"].sum()
-    saldo_restante = salario_inicial - total_gastado
-
-    # Métricas principales
-    col_a, col_b, col_c = st.columns(3)
-    col_a.metric("Salario Inicial", f"${salario_inicial:,.2f}")
-    col_b.metric("Total Gastado", f"${total_gastado:,.2f}", delta=f"-{total_gastado:,.2f}", delta_color="inverse")
-    col_c.metric("Saldo Restante", f"${saldo_restante:,.2f}")
-
-    st.divider()
-
-    # Gráficos y Tablas
-    col_tabla, col_grafico = st.columns([1.5, 1])
-
-    with col_tabla:
-        st.write("### Detalle de Compras")
-        st.dataframe(df_gastos, use_container_width=True)
-
-    with col_grafico:
-        st.write("### Gastos por Categoría")
-        resumen_cat = df_gastos.groupby("Categoría")["Monto"].sum()
-        st.bar_chart(resumen_cat)
-
-else:
-    st.info("Aún no has registrado gastos. Comienza llenando el formulario de arriba.")
-    st.metric("Saldo Disponible", f"${salario_inicial:,.2f}")
+# Pie de página
+st.sidebar.divider()
+st.sidebar.write("Contacto: [Tu Correo] | [Tu LinkedIn]")
