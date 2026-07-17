@@ -3,7 +3,7 @@ import requests
 from streamlit_lottie import st_lottie
 
 # Configuración de página
-st.set_page_config(page_title="Portafolio - Cristian Bran", layout="wide")
+st.set_page_config(page_title="Portafolio - Cristian Camilo Bran Arriaga", layout="wide")
 
 # Función segura para cargar animaciones
 def load_lottieurl(url):
