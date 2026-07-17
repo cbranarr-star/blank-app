@@ -1,94 +1,79 @@
 import streamlit as st
-import requests
-from streamlit_lottie import st_lottie
 
-# Configuración de página
-st.set_page_config(page_title="Portafolio - Cristian Camilo Bran Arriaga", layout="wide")
+# Configuración inicial
+st.set_page_config(page_title="Cristian Bran — Portafolio", layout="wide")
 
-# Función para cargar animación Lottie
-def load_lottieurl(url):
-    r = requests.get(url)
-    return r.json() if r.status_code == 200 else None
-
-# CSS personalizado para efectos de movimiento (Hover)
+# CSS personalizado que replica tu diseño original
 st.markdown("""
 <style>
+    :root { --ink: #0B0F1A; --signal: #4FD9C6; --panel: #121A2B; --paper: #E9EDF5; --line: #26314A; }
+    .stApp { background-color: var(--ink); color: var(--paper); }
+    
+    /* Animación de botones */
+    .btn {
+        padding: 13px 22px; border-radius: 2px; text-decoration: none; 
+        transition: transform .2s, background .2s; display: inline-block;
+        font-family: 'IBM Plex Mono', monospace; font-weight: 600;
+    }
+    .btn-primary { background: var(--signal); color: #04201C; }
+    .btn:hover { transform: translateY(-5px); cursor: pointer; }
+    
+    /* Tarjetas con movimiento */
     .card {
-        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        padding: 20px;
-        border-radius: 15px;
-        background: #fdfdfd;
-        border: 1px solid #ddd;
-        margin-bottom: 20px;
+        background: var(--panel); border: 1px solid var(--line); 
+        padding: 22px; transition: transform 0.3s ease;
     }
-    .card:hover {
-        transform: translateY(-10px) scale(1.02);
-        box-shadow: 0 15px 25px rgba(0,0,0,0.1);
-    }
-    .btn-linkedin {
-        background-color: #0077b5; 
-        color: white; 
-        padding: 10px 20px; 
-        border-radius: 5px; 
-        text-decoration: none; 
-        font-weight: bold;
-    }
+    .card:hover { transform: translateY(-10px); border-color: var(--signal); }
+    
+    /* Animación de entrada */
+    .reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease-out; }
+    .in { opacity: 1; transform: translateY(0); }
 </style>
 """, unsafe_allow_html=True)
 
-# Carga de animación
-lottie_data = load_lottieurl("https://assets10.lottiefiles.com/packages/lf20_w51pcehl.json")
+# Contenido del Portafolio
+st.title("Cristian Bran")
+st.subheader("Construye puentes entre redes, datos e IA.")
 
-# Cabecera
-col1, col2 = st.columns([2, 1])
+st.markdown("""
+<div class="reveal">
+    <p>Ingeniero en Telecomunicaciones y Analista de Inteligencia de Negocios en Savia Salud EPS.</p>
+</div>
+""", unsafe_allow_html=True)
+
+# Botones con estilo
+col1, col2 = st.columns([1, 5])
 with col1:
-    st.title("Cristian Camilo Bran Arriaga")
-    st.subheader("Ingeniero en Telecomunicaciones | Especialista en Big Data e Inteligencia de Negocios")
-    st.write("Profesional enfocado en infraestructura tecnológica, mesa de servicios y análisis estratégico de datos.")
-with col2:
-    if lottie_data:
-        st_lottie(lottie_data, height=200)
+    st.markdown('<a href="#trayectoria" class="btn btn-primary">Trayectoria</a>', unsafe_allow_html=True)
 
 st.divider()
 
-# Sección de Experiencia
-st.header("Experiencia Profesional")
-experiencias = [
-    ("Savia Salud EPS", "Practicante de infraestructura y Agente mesa de servicios. Soporte nivel 1/2, gestión de tickets, monitoreo de red y optimización de plataformas de salud[cite: 4]."),
-    ("Comware", "Analista de mesa de fibra óptica. Soporte a red MPLS, monitoreo y gestión en plataformas como BMC Remedy e iMaster NCE[cite: 4]."),
-    ("Supplies", "Analista nivel 1. Soporte técnico, mantenimiento de hardware, inventarios y gestión de VPN/Antivirus[cite: 4]."),
-    ("Teleperformance", "Agente soporte técnico nivel 1. Solución de problemas de navegación para clientes internacionales[cite: 4].")
+# Sección de Trayectoria con efecto
+st.header("Trayectoria Profesional")
+experiencia = [
+    ("Analista de Inteligencia de Negocios", "Savia Salud EPS", "02/2025 - Presente"),
+    ("Analista de Infraestructura", "Savia Salud EPS", "05/2023 - 02/2025"),
+    ("Agente Mesa de Servicios", "Savia Salud EPS", "05/2022 - 03/2023")
 ]
 
-for titulo, desc in experiencias:
-    st.markdown(f'<div class="card"><h4>{titulo}</h4><p>{desc}</p></div>', unsafe_allow_html=True)
-
-# Sección de Formación
-st.divider()
-st.header("Formación Académica")
-st.markdown("""
-- **Especialista en Big Data e Inteligencia de Negocios** - Universidad Católica Luis Amigó (2026)[cite: 2, 6].
-- **Ingeniero en Telecomunicaciones** - Politécnico Grancolombiano[cite: 3].
-- **Tecnólogo en Gestión de Redes de Datos** - SENA[cite: 4].
-- **Técnico en Sistemas** - SENA[cite: 4].
-""")
-
-# Sección de contacto
-st.divider()
-st.subheader("Contacto")
-col_c1, col_c2, col_c3 = st.columns(3)
-
-with col_c1:
-    st.write("📍 Medellín, Colombia")
-with col_c2:
-    st.write("📧 ccbran1998@hotmail.com")
-with col_c3:
-    st.markdown("""
-    <a href="https://www.linkedin.com/in/cristian-camilo-bran-arriaga-b1074730b" target="_blank" class="btn-linkedin">
-        LinkedIn
-    </a>
+for rol, org, fecha in experiencia:
+    st.markdown(f"""
+    <div class="card reveal">
+        <h3>{rol}</h3>
+        <p style="color:var(--signal)">{org}</p>
+        <small>{fecha}</small>
+    </div>
+    <br>
     """, unsafe_allow_html=True)
 
-# Footer
-st.markdown("---")
-st.caption("Desarrollado para transformar datos en valor estratégico.")
+# Script para animar la aparición de elementos al hacer scroll
+st.markdown("""
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('in');
+        });
+    });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+""", unsafe_allow_html=True)
