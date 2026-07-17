@@ -5,13 +5,10 @@ from streamlit_lottie import st_lottie
 # Configuración de página
 st.set_page_config(page_title="Portafolio - Cristian Camilo Bran Arriaga", layout="wide")
 
-# Función para cargar animación Lottie de forma segura
 def load_lottieurl(url):
     try:
         r = requests.get(url, timeout=10)
-        if r.status_code == 200:
-            return r.json()
-        return None
+        return r.json() if r.status_code == 200 else None
     except:
         return None
 
@@ -30,9 +27,9 @@ st.markdown("""
 # Cabecera
 col1, col2 = st.columns([2, 1])
 with col1:
-    st.title("Cristian Camilo Bran Arriaga")
+    st.title("Cristian Bran")
     st.subheader("Construye puentes entre redes, datos e IA.")
-    st.write("Ingeniero en Telecomunicaciones y Analista de Inteligencia de Negocios. Transformando infraestructura en decisiones estratégicas[cite: 4].")
+    st.write("Ingeniero en Telecomunicaciones y Analista de Inteligencia de Negocios. Transformando infraestructura en decisiones estratégicas.")
     st.markdown('<a href="#trayectoria" class="btn btn-primary">Ver trayectoria</a>', unsafe_allow_html=True)
 
 with col2:
@@ -42,19 +39,22 @@ with col2:
 
 st.divider()
 
-# Sección de Trayectoria
+# Sección de Trayectoria Completa
 st.header("Trayectoria Profesional")
-experiencias = [
-    ("Analista de Inteligencia de Negocios", "Savia Salud EPS", "Generación de informes estratégicos y automatización con Python y Power BI."),
-    ("Analista de Infraestructura", "Savia Salud EPS", "Gestión de servidores, redes MPLS y administración de VPN Fortigate."),
-    ("Agente Mesa de Servicios", "Comware", "Soporte especializado a redes MPLS y monitoreo en plataformas BMC Remedy.")
+trayectoria = [
+    ("Analista de Inteligencia de Negocios", "Savia Salud EPS", "02/2025 – Presente", "Generación de informes estratégicos, queries en MySQL/MariaDB, scripts en Python para cruces de datos y tableros en Power BI[cite: 4]."),
+    ("Analista de Infraestructura", "Savia Salud EPS", "05/2023 – 02/2025", "Escalamientos de fallas, monitoreo de recursos, administración de AD, migración a la nube y manejo de VPN Fortigate[cite: 4]."),
+    ("Agente Mesa de Servicios", "Savia Salud EPS", "05/2022 – 03/2023", "Soporte técnico, diagnóstico de red, administración de Google Workspace y seguimiento de tickets[cite: 4]."),
+    ("Analista Nivel 1", "Supplies", "11/2021 – 02/2022", "Soporte técnico a equipos, mantenimiento preventivo/correctivo, diagnóstico de cableado e instalación de VPN/antivirus[cite: 4]."),
+    ("Analista Mesa de Servicios", "Comware", "06/2019 – 04/2021", "Soporte telefónico a técnicos en sitio sobre red MPLS, manejo de BMC Remedy, iMaster NCE y Siebel[cite: 4]."),
+    ("Agente de Soporte Técnico", "Teleperformance", "06/2018 – 05/2019", "Atención al cliente internacional para resolución de problemas de navegación en hogares[cite: 4].")
 ]
 
-for titulo, org, desc in experiencias:
+for rol, org, fecha, desc in trayectoria:
     st.markdown(f"""
     <div class="card">
-        <h3>{titulo}</h3>
-        <p style="color:var(--signal)">{org}</p>
+        <h3>{rol}</h3>
+        <p style="color:var(--signal)"><strong>{org}</strong> | {fecha}</p>
         <p>{desc}</p>
     </div>
     """, unsafe_allow_html=True)
