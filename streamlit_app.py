@@ -7,7 +7,7 @@ from streamlit_lottie import st_lottie
 # CONFIGURACIÓN DE PÁGINA
 # ────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="Cristian Camilo Bran Arriaga | Portafolio",
+    page_title="Cristian Camilo Bran Arriaga | Portfolio",
     layout="wide",
     page_icon="💻",
 )
