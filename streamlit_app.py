@@ -22,25 +22,43 @@ def load_lottieurl(url):
 
 
 # ────────────────────────────────────────────────────────────
-# ESTILOS
+# ESTILOS — paleta clara y profesional (blanco / azul acero / oro mate)
 # ────────────────────────────────────────────────────────────
 st.markdown(
     """
 <style>
     :root {
-        --ink: #0B0F1A; --signal: #4FD9C6; --amber: #F0A857;
-        --panel: #121A2B; --panel-glass: rgba(18, 26, 43, 0.7);
-        --paper: #E9EDF5; --muted: #8892A6;
+        --ink: #F8FAFC;
+        --panel: #FFFFFF;
+        --panel-glass: rgba(255, 255, 255, 0.9);
+        --signal: #2E5AAC;
+        --signal-2: #1F4685;
+        --amber: #9C6B23;
+        --paper: #172033;
+        --muted: #5C6B85;
+        --line: #E2E8F0;
     }
-    .stApp { background-color: var(--ink); color: var(--paper); }
-    h1, h2, h3, h4 { color: #ffffff !important; }
+
+    .stApp {
+        background: linear-gradient(180deg, #FFFFFF 0%, #F4F7FB 100%);
+        color: var(--paper);
+    }
+    h1, h2, h3, h4 { color: var(--paper) !important; letter-spacing: -0.01em; }
 
     .glass-card {
         background: var(--panel-glass); backdrop-filter: blur(10px);
-        border: 1px solid rgba(255,255,255,0.1); padding: 26px 28px;
-        border-radius: 14px; margin-bottom: 18px; transition: 0.25s;
+        border: 1px solid var(--line); padding: 26px 28px;
+        border-radius: 14px; margin-bottom: 18px;
+        box-shadow: 0 2px 14px rgba(23,32,51,0.05);
+        transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
     }
-    .glass-card:hover { border-color: var(--signal); transform: translateY(-3px); }
+    .glass-card:hover {
+        border-color: var(--signal); transform: translateY(-4px);
+        box-shadow: 0 12px 28px rgba(46,90,172,0.14);
+    }
+    .glass-card ul { margin: 10px 0 0; padding-left: 20px; }
+    .glass-card li { margin-bottom: 6px; color: #3A4A63; font-size: 0.95rem; }
+    .glass-card p { color: #3A4A63; }
 
     .eyebrow {
         color: var(--signal); font-family: monospace; text-transform: uppercase;
@@ -48,31 +66,59 @@ st.markdown(
     }
     .tag {
         display:inline-block; font-family: monospace; font-size: 0.72rem;
-        color: var(--ink); background: var(--signal); padding: 3px 10px;
+        color: #FFFFFF; background: var(--signal); padding: 3px 10px;
         border-radius: 20px; margin-bottom: 10px; font-weight:700;
     }
     .tag.amber { background: var(--amber); }
     .org { color: var(--signal); font-weight: 700; }
     .muted { color: var(--muted); font-size: 0.85rem; }
 
+    /* ── botones de navegación con movimiento ── */
     .stButton>button {
-        background: transparent; border: 1px solid var(--signal); color: var(--signal);
-        border-radius: 8px; padding: 8px 20px; font-weight: 600; width: 100%;
-        transition: 0.2s;
+        border-radius: 10px; padding: 10px 18px; font-weight: 600; width: 100%;
+        transition: transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .22s ease, background .22s ease, border-color .22s ease;
+        border: 1px solid var(--line);
     }
-    .stButton>button:hover { background: var(--signal); color: var(--ink); border-color: var(--signal); }
-    .stButton>button:focus { box-shadow: 0 0 0 2px rgba(79,217,198,0.4); }
+    .stButton>button:hover {
+        transform: translateY(-3px) scale(1.035);
+        box-shadow: 0 10px 22px rgba(46,90,172,0.22);
+    }
+    .stButton>button:active { transform: translateY(-1px) scale(0.98); }
+
+    button[kind="secondary"] {
+        background: #FFFFFF !important; color: var(--signal) !important;
+        border-color: rgba(46,90,172,0.35) !important;
+    }
+    button[kind="secondary"]:hover {
+        background: rgba(46,90,172,0.08) !important; border-color: var(--signal) !important;
+    }
+    button[kind="primary"] {
+        background: linear-gradient(135deg, var(--signal) 0%, var(--signal-2) 100%) !important;
+        color: #FFFFFF !important; border-color: var(--signal) !important;
+        box-shadow: 0 0 0 3px rgba(46,90,172,0.15);
+    }
+    button[kind="primary"]:hover {
+        box-shadow: 0 10px 24px rgba(46,90,172,0.35);
+    }
 
     .stat-box {
         background: var(--panel-glass); border-left: 3px solid var(--signal);
         padding: 14px 18px; border-radius: 6px;
+        box-shadow: 0 2px 14px rgba(23,32,51,0.05);
+        transition: transform .22s ease, border-color .22s ease;
     }
-    .stat-box .num { font-family: monospace; font-size: 1.6rem; font-weight: 700; color: #fff; }
+    .stat-box:hover { transform: translateY(-3px); border-color: var(--amber); }
+    .stat-box .num { font-family: monospace; font-size: 1.6rem; font-weight: 700; color: var(--paper); }
     .stat-box .lbl { color: var(--muted); font-size: 0.8rem; text-transform: uppercase; }
 
     .dash-slot {
-        border: 1px dashed rgba(255,255,255,0.25); border-radius: 12px;
+        border: 1px dashed rgba(23,32,51,0.22); border-radius: 12px;
         padding: 18px; background: var(--panel-glass);
+    }
+
+    .upload-note {
+        border: 1px dashed var(--amber); border-radius: 10px; padding: 14px 16px;
+        background: rgba(156,107,35,0.06); font-size: 0.85rem; color: var(--muted);
     }
 </style>
 """,
@@ -87,76 +133,124 @@ EXPERIENCIA = {
         "icono": "📊",
         "periodo": "2025 – hoy",
         "items": [
-            (
-                "Analista de Inteligencia de Negocios",
-                "Savia Salud EPS",
-                "02/2025 – Presente",
-                "Genero informes estandarizados y personalizados sobre datos de la organización "
-                "(cuentas médicas, autorizaciones, MIPRES, riesgo en salud, PQRS, tutelas). Creo "
-                "queries para MySQL y MariaDB, scripts en Python para cruces de datos, y tableros "
-                "estratégicos y operativos en Power BI. Apoyo la extracción de información para "
-                "entes de control y manejo GitHub, Trello y Airflow.",
-            ),
+            {
+                "rol": "Analista de Inteligencia de Negocios",
+                "org": "Savia Salud EPS",
+                "fecha": "02/2025 – Presente",
+                "funciones": [
+                    "Genero informes estandarizados y personalizados sobre datos de la organización: cuentas médicas, autorizaciones, MIPRES, riesgo en salud, PQRS y tutelas.",
+                    "Brindo soporte a los informes creados y ejecuto modificaciones según necesidades del negocio.",
+                    "Escribo queries en MySQL y MariaDB para la entrega de información a distintas áreas.",
+                    "Desarrollo scripts en Python para cruces y limpieza de datos entre distintas fuentes.",
+                    "Apoyo la extracción de información solicitada por entes de control.",
+                    "Diseño y mantengo tableros estratégicos y operativos en Power BI.",
+                    "Gestiono versionamiento y flujos de trabajo con GitHub, Trello y Airflow.",
+                ],
+            },
         ],
     },
     "Infraestructura": {
         "icono": "🖥️",
         "periodo": "2022 – 2025",
         "items": [
-            (
-                "Analista de Infraestructura",
-                "Savia Salud EPS",
-                "05/2023 – 02/2025",
-                "Escalamientos de fallas de servidores con el proveedor Tigo, monitoreo y ampliación "
-                "de recursos, administración de AD, migración de servidores a la nube, tableros en "
-                "Power BI, DRP, informes mensuales de disponibilidad y manejo de VPN Fortigate.",
-            ),
-            (
-                "Agente Mesa de Servicios",
-                "Savia Salud EPS",
-                "05/2022 – 03/2023",
-                "Recepción de solicitudes vía chat, correo y teléfono, soporte técnico y diagnóstico "
-                "de red HFC/FTT, escalamientos N2, creación de tableros en Power BI, administración "
-                "de Google Workspace y seguimiento de tickets.",
-            ),
+            {
+                "rol": "Analista de Infraestructura",
+                "org": "Savia Salud EPS",
+                "fecha": "05/2023 – 02/2025",
+                "funciones": [
+                    "Gestioné escalamientos sobre fallas en servidores directamente con el proveedor Tigo.",
+                    "Realicé monitoreo continuo de servidores y solicitudes de ampliación de recursos.",
+                    "Atendí solicitudes de recuperación de archivos y administré el Directorio Activo (AD).",
+                    "Supervisé el backup de servidores y lideré la migración de servidores a la nube.",
+                    "Construí tableros en Power BI para seguimiento de disponibilidad de infraestructura.",
+                    "Participé en capacitación del proceso N2 y en la ejecución del DRP (plan de recuperación ante desastres).",
+                    "Elaboré informes mensuales de disponibilidad del centro de datos (DC).",
+                    "Administré la plataforma VPN Fortigate y mantuve actualizado el inventario de servidores.",
+                    "Lideré la implementación de nuevos servidores en producción.",
+                ],
+            },
+            {
+                "rol": "Agente Mesa de Servicios",
+                "org": "Savia Salud EPS",
+                "fecha": "05/2022 – 03/2023",
+                "funciones": [
+                    "Recibí y gestioné solicitudes vía chat, correo y canal telefónico, generando tickets de atención.",
+                    "Brindé soporte técnico sobre equipos, periféricos e impresoras.",
+                    "Realicé diagnóstico de red HFC/FTT y escalamientos a nivel N2.",
+                    "Diseñé tableros de seguimiento en Power BI.",
+                    "Administré cuentas y recursos en Google Workspace.",
+                    "Apoyé la coordinación de análisis de datos, haciendo seguimiento de tickets y entrega de informes.",
+                ],
+            },
         ],
     },
     "Soporte & Redes": {
         "icono": "🌐",
         "periodo": "2018 – 2022",
         "items": [
-            (
-                "Analista Nivel 1",
-                "Supplies",
-                "11/2021 – 02/2022",
-                "Soporte técnico a equipos portátiles y de escritorio, mantenimiento correctivo y "
-                "preventivo, diagnóstico de cableado interno, instalación de sistema operativo y "
-                "de VPN/antivirus.",
-            ),
-            (
-                "Analista Mesa de Servicios",
-                "Comware",
-                "06/2019 – 04/2021",
-                "Soporte telefónico a técnicos en sitio sobre aperturas en la red MPLS de Tigo-Une "
-                "(topologías en anillo y bus), instalación y retiro de servicios, y manejo de BMC "
-                "Remedy, Fénix ATC, Service Desk, iMaster NCE y Siebel.",
-            ),
-            (
-                "Agente de Soporte Técnico",
-                "Teleperformance",
-                "06/2018 – 05/2019",
-                "Atención al cliente para resolver casos de navegación de internet en hogares y "
-                "líneas móviles internacionales Orange y Jazztel.",
-            ),
+            {
+                "rol": "Analista Nivel 1",
+                "org": "Supplies",
+                "fecha": "11/2021 – 02/2022",
+                "funciones": [
+                    "Brindé soporte técnico a computadores portátiles y de escritorio.",
+                    "Ejecuté mantenimiento correctivo y preventivo, y gestioné inventario de equipos.",
+                    "Realicé validación de puntos de red y diagnóstico de cableado interno.",
+                    "Instalé sistema operativo Windows 10 y realicé cambios/actualizaciones de equipos.",
+                    "Configuré programas internos de VPN y antivirus corporativo.",
+                    "Gestioné tickets a través de la plataforma Seus.",
+                ],
+            },
+            {
+                "rol": "Analista Mesa de Servicios",
+                "org": "Comware",
+                "fecha": "06/2019 – 04/2021",
+                "funciones": [
+                    "Brindé soporte telefónico a técnicos en sitio sobre aperturas en la red MPLS del operador Tigo-Une.",
+                    "Di soporte en topologías de red en anillo y en bus.",
+                    "Gestioné instalación y retiro de servicios, con monitoreo continuo de la red MPLS.",
+                    "Creé y realicé seguimiento de tickets a través de BMC Remedy.",
+                    "Utilicé Fénix ATC Clientes, Service Desk, iMaster NCE y Siebel como plataformas de soporte.",
+                ],
+            },
+            {
+                "rol": "Agente de Soporte Técnico",
+                "org": "Teleperformance",
+                "fecha": "06/2018 – 05/2019",
+                "funciones": [
+                    "Atendí clientes vía telefónica para resolver casuísticas de navegación de internet en hogares.",
+                    "Di soporte a operadoras móviles en líneas internacionales Orange y Jazztel.",
+                ],
+            },
         ],
     },
 }
 
 FORMACION_ACADEMICA = [
-    ("Especialista en Big Data e BI", "02/2025 – 01/2026"),
-    ("Ingeniero en Telecomunicaciones", "02/2021 – 07/2023"),
-    ("Tecnólogo en Gestión de Redes de Datos", "01/2016 – 04/2018"),
-    ("Técnico en Sistemas", "01/2014 – 12/2015"),
+    {
+        "titulo": "Especialista en Big Data e BI",
+        "periodo": "02/2025 – 01/2026",
+        "detalle": "Especialización orientada a arquitectura de datos, modelado y visualización estratégica para la toma de decisiones.",
+        "uploader": False,
+    },
+    {
+        "titulo": "Ingeniero en Telecomunicaciones",
+        "periodo": "02/2021 – 07/2023",
+        "detalle": "Formación profesional en redes, infraestructura de telecomunicaciones y sistemas de comunicación.",
+        "uploader": True,
+    },
+    {
+        "titulo": "Tecnólogo en Gestión de Redes de Datos",
+        "periodo": "01/2016 – 04/2018",
+        "detalle": "Formación técnica en administración, monitoreo y soporte de redes de datos.",
+        "uploader": False,
+    },
+    {
+        "titulo": "Técnico en Sistemas",
+        "periodo": "01/2014 – 12/2015",
+        "detalle": "Base técnica en soporte de sistemas, hardware y software.",
+        "uploader": False,
+    },
 ]
 
 CERTIFICACIONES_2026 = [
@@ -168,17 +262,30 @@ CERTIFICACIONES_2026 = [
 ]
 
 # ────────────────────────────────────────────────────────────
-# NAVEGACIÓN POR BOTONES
+# NAVEGACIÓN POR BOTONES (con estado activo resaltado)
 # ────────────────────────────────────────────────────────────
 if "page" not in st.session_state:
     st.session_state.page = "Inicio"
 
-PAGES = ["Inicio", "Experiencia", "Formación & Cursos", "Dashboards", "Contacto"]
+PAGE_ICONS = {
+    "Inicio": "🏠",
+    "Experiencia": "💼",
+    "Formación & Cursos": "🎓",
+    "Dashboards": "📈",
+    "Contacto": "✉️",
+}
+PAGES = list(PAGE_ICONS.keys())
 
 nav_cols = st.columns(len(PAGES))
 for col, page_name in zip(nav_cols, PAGES):
     with col:
-        if st.button(page_name, use_container_width=True, key=f"nav_{page_name}"):
+        is_active = st.session_state.page == page_name
+        if st.button(
+            f"{PAGE_ICONS[page_name]}  {page_name}",
+            use_container_width=True,
+            key=f"nav_{page_name}",
+            type="primary" if is_active else "secondary",
+        ):
             st.session_state.page = page_name
 
 st.markdown("<br>", unsafe_allow_html=True)
@@ -202,19 +309,30 @@ if st.session_state.page == "Inicio":
         """
     <div class="glass-card">
         <p>Soy un profesional versátil, con más de <strong>6 años de experiencia continua en tecnología</strong>,
-        que ha construido su carrera subiendo capas: primero sostuve la infraestructura que hace posible que
-        los sistemas funcionen (redes, servidores, mesas de servicio), luego pasé a interpretar los datos que
-        esos sistemas generan, y desde 2026 sumé inteligencia artificial aplicada a ese mismo stack.</p>
-        <p>Empecé en soporte técnico y redes MPLS (Comware, Teleperformance), pasé por mantenimiento de
-        equipos e infraestructura (Supplies, Savia Salud EPS) y hoy trabajo como <strong>Analista de
-        Inteligencia de Negocios en Savia Salud EPS</strong>, generando informes estratégicos sobre cuentas
-        médicas, autorizaciones, riesgo en salud y PQRS. Uso SQL (MySQL/MariaDB), Python para cruces de
-        datos, y construyo tableros estratégicos y operativos en Power BI.</p>
-        <p>En paralelo completé una <strong>especialización en Big Data e BI</strong> (2025–2026) y cinco
-        certificaciones aplicadas de IA en 2026 — desde IA generativa con Gemini hasta ciencia de datos,
-        automatización con bots y el marco legal de la IA en publicidad digital. Me caracteriza la facilidad
-        para el trabajo en equipo y el entusiasmo por seguir aprendiendo y aportar lo mejor de mí en cada
-        entorno.</p>
+        que ha construido su carrera subiendo capas de forma deliberada: primero aprendí a sostener la
+        infraestructura que hace posible que los sistemas funcionen —redes, servidores, mesas de servicio—,
+        después pasé a interpretar los datos que esos mismos sistemas generan, y desde 2026 sumé inteligencia
+        artificial aplicada a ese stack, entendiendo que el dato sin contexto ni automatización tiene un
+        techo bajo.</p>
+        <p>Mi camino empezó en soporte técnico y redes MPLS —en Teleperformance resolviendo casos de
+        conectividad para líneas internacionales, y en Comware dando soporte en sitio sobre la red del
+        operador Tigo-Une—. De ahí pasé a mantenimiento de equipos e infraestructura crítica en Supplies
+        y en Savia Salud EPS, donde escalé fallas de servidores, administré Directorio Activo, ejecuté
+        migraciones a la nube y sostuve planes de recuperación ante desastres (DRP). Esa base de
+        infraestructura es, hoy, lo que me permite entender de extremo a extremo de dónde viene cada dato
+        que analizo.</p>
+        <p>Actualmente soy <strong>Analista de Inteligencia de Negocios en Savia Salud EPS</strong>, donde
+        genero informes estratégicos sobre cuentas médicas, autorizaciones, riesgo en salud y PQRS para una
+        aseguradora de salud. Trabajo con SQL sobre MySQL y MariaDB, escribo scripts en Python para cruces
+        de datos entre fuentes, y diseño tableros estratégicos y operativos en Power BI que sirven de
+        insumo real para la toma de decisiones y la respuesta a entes de control.</p>
+        <p>En paralelo, completé una <strong>especialización en Big Data e BI</strong> (2025–2026) y cinco
+        certificaciones aplicadas de inteligencia artificial durante 2026 —desde IA generativa con Gemini,
+        pasando por fundamentos de ciencia de datos y automatización con bots, hasta el marco legal de la
+        IA en publicidad digital—. No lo veo como una colección de diplomas, sino como una actualización
+        deliberada de mi caja de herramientas para seguir siendo útil a medida que el trabajo con datos
+        cambia. Me caracteriza la facilidad para el trabajo en equipo, la capacidad de simultanear varias
+        tareas y adaptarme a entornos distintos, y un entusiasmo genuino por seguir aprendiendo.</p>
     </div>
     """,
         unsafe_allow_html=True,
@@ -235,31 +353,32 @@ if st.session_state.page == "Inicio":
     st.info("Usa los botones de arriba para explorar mi **experiencia segmentada**, mi **formación y cursos**, y algunos **tableros** que he construido.")
 
 # ────────────────────────────────────────────────────────────
-# PÁGINA: EXPERIENCIA (segmentada por etapa)
+# PÁGINA: EXPERIENCIA (segmentada por etapa, funciones expandidas)
 # ────────────────────────────────────────────────────────────
 elif st.session_state.page == "Experiencia":
     st.markdown('<p class="eyebrow">Trayectoria profesional</p>', unsafe_allow_html=True)
     st.title("Experiencia, por etapa")
-    st.write("Seis roles agrupados en tres etapas de especialización creciente. Selecciona una pestaña para explorar cada una.")
+    st.write("Seis roles agrupados en tres etapas de especialización creciente. Selecciona una pestaña para ver el detalle de funciones de cada cargo.")
 
     tabs = st.tabs([f"{v['icono']} {k}  ·  {v['periodo']}" for k, v in EXPERIENCIA.items()])
     for tab, (etapa, data) in zip(tabs, EXPERIENCIA.items()):
         with tab:
-            for rol, org, fecha, desc in data["items"]:
+            for item in data["items"]:
+                funciones_html = "".join(f"<li>{f}</li>" for f in item["funciones"])
                 st.markdown(
                     f"""
                 <div class="glass-card">
-                    <span class="tag">{fecha}</span>
-                    <h4>{rol}</h4>
-                    <p class="org">{org}</p>
-                    <p>{desc}</p>
+                    <span class="tag">{item['fecha']}</span>
+                    <h4>{item['rol']}</h4>
+                    <p class="org">{item['org']}</p>
+                    <ul>{funciones_html}</ul>
                 </div>
                 """,
                     unsafe_allow_html=True,
                 )
 
 # ────────────────────────────────────────────────────────────
-# PÁGINA: FORMACIÓN & CURSOS (segmentada)
+# PÁGINA: FORMACIÓN & CURSOS (segmentada, con anexos)
 # ────────────────────────────────────────────────────────────
 elif st.session_state.page == "Formación & Cursos":
     st.markdown('<p class="eyebrow">Formación continua</p>', unsafe_allow_html=True)
@@ -269,16 +388,35 @@ elif st.session_state.page == "Formación & Cursos":
     tab_edu, tab_cert = st.tabs(["🎓 Formación académica", "🤖 Certificaciones IA · 2026"])
 
     with tab_edu:
-        for titulo, periodo in FORMACION_ACADEMICA:
-            st.markdown(
-                f"""
-            <div class="glass-card">
-                <span class="tag amber">{periodo}</span>
-                <h4>{titulo}</h4>
-            </div>
-            """,
-                unsafe_allow_html=True,
-            )
+        for edu in FORMACION_ACADEMICA:
+            with st.expander(f"{edu['titulo']}  ·  {edu['periodo']}", expanded=edu["uploader"]):
+                st.markdown(
+                    f"""
+                <div class="glass-card" style="margin-bottom:10px;">
+                    <span class="tag amber">{edu['periodo']}</span>
+                    <p>{edu['detalle']}</p>
+                </div>
+                """,
+                    unsafe_allow_html=True,
+                )
+                if edu["uploader"]:
+                    st.markdown(
+                        '<div class="upload-note">📎 Espacio para anexar soportes de este título '
+                        '(diploma, acta de grado, certificado). Los archivos se muestran solo durante '
+                        'esta sesión; para que queden disponibles de forma permanente en el sitio, '
+                        'súbelos también al repositorio del proyecto en Streamlit Cloud.</div>',
+                        unsafe_allow_html=True,
+                    )
+                    archivos = st.file_uploader(
+                        "Anexar documentos — Ingeniero en Telecomunicaciones",
+                        type=["pdf", "png", "jpg", "jpeg"],
+                        accept_multiple_files=True,
+                        key="anexos_telecom",
+                    )
+                    if archivos:
+                        st.success(f"{len(archivos)} archivo(s) cargado(s) en esta sesión:")
+                        for a in archivos:
+                            st.write(f"📄 {a.name}")
 
     with tab_cert:
         c1, c2 = st.columns(2)
