@@ -45,7 +45,6 @@ st.markdown(
         overflow-x: hidden;
     }
 
-    /* Canvas de partículas de fondo interactivo con el cursor */
     #cursor-canvas {
         position: fixed;
         top: 0;
@@ -92,7 +91,6 @@ st.markdown(
     .org { color: var(--signal); font-weight: 700; font-size: 1.05rem; }
     .muted { color: var(--muted); font-size: 0.9rem; }
 
-    /* Botones Interactivos con Animación */
     .stButton>button {
         border-radius: 12px; padding: 12px 20px; font-weight: 600; width: 100%;
         transition: all 0.3s cubic-bezier(.34,1.56,.64,1);
@@ -142,7 +140,6 @@ st.markdown(
     }
 </style>
 
-<!-- Script para el efecto interactivo de partículas en el cursor (Framer / Dribbble style) -->
 <canvas id="cursor-canvas"></canvas>
 <script>
 const canvas = document.getElementById('cursor-canvas');
@@ -223,7 +220,6 @@ function animate() {
         particlesArray[i].update();
         particlesArray[i].draw();
 
-        // Conectar líneas cercanas
         for (let j = i; j < particlesArray.length; j++) {
             let dx = particlesArray[i].x - particlesArray[j].x;
             let dy = particlesArray[i].y - particlesArray[j].y;
@@ -238,7 +234,6 @@ function animate() {
             }
         }
 
-        // Conectar con el cursor
         if (mouse.x != null && mouse.y != null) {
             let dx = particlesArray[i].x - mouse.x;
             let dy = particlesArray[i].y - mouse.y;
@@ -389,6 +384,12 @@ FORMACION_ACADEMICA = [
     },
 ]
 
+CERTIFICACIONES_PLATZI_2025 = [
+    ("Curso Visualización de Datos para BI", "28/03/2025", "13 h · Teoría y práctica", "Business Intelligence", "https://platzi.com/@cristianc.bran/"),
+    ("Curso de Introducción a AWS: Cómputo, Almacenamiento y Bases de Datos", "01/03/2025", "11 h · Teoría y práctica", "Cloud / AWS", "https://platzi.com/@cristianc.bran/"),
+    ("Curso de Introducción a la Inteligencia Artificial", "03/02/2025", "4 h · Teoría y práctica", "Inteligencia Artificial", "https://platzi.com/@cristianc.bran/"),
+]
+
 CERTIFICACIONES_2026 = [
     ("Crear valor con IA, automatización y bots", "02/07/2026", "2 h · 2 módulos", "Automatización"),
     ("Gen AI Intermedio — AWS Entrena Colombia / TIDWIT", "30/06/2026", "4 h 09 min", "IA generativa"),
@@ -462,13 +463,11 @@ if st.session_state.page == "Inicio":
         aseguradora de salud[cite: 1]. Trabajo con SQL sobre MySQL y MariaDB, escribo scripts en Python para cruces
         de datos entre fuentes, y diseño tableros estratégicos y operativos en Power BI que sirven de
         insumo real para la toma de decisiones y la respuesta a entes de control[cite: 1].</p>
-        <p>En paralelo, completé una <strong>especialización en Big Data e BI</strong> (2025–2026) y cinco
-        certificaciones aplicadas de inteligencia artificial durante 2026 —desde IA generativa con Gemini,
-        pasando por fundamentos de ciencia de datos y automatización con bots, hasta el marco legal de la
-        IA en publicidad digital[cite: 1]—. No lo veo como una colección de diplomas, sino como una actualización
-        deliberada de mi caja de herramientas para seguir siendo útil a medida que el trabajo con datos
-        cambia. Me caracteriza la facilidad para el trabajo en equipo, la capacidad de simultanear varias
-        tareas y adaptarme a entornos distintos, y un entusiasmo genuino por seguir aprendiendo[cite: 1].</p>
+        <p>En paralelo, completé una <strong>especialización en Big Data e BI</strong> (2025–2026) junto con
+        certificaciones especializadas en Cloud (AWS), Visualización de Datos, Inteligencia Artificial y automatización[cite: 1, 2, 3, 4]. 
+        No lo veo como una colección de diplomas, sino como una actualización deliberada de mi caja de herramientas para seguir 
+        siendo útil a medida que el trabajo con datos cambia[cite: 1]. Me caracteriza la facilidad para el trabajo en equipo, 
+        la capacidad de simultanear varias tareas y adaptarme a entornos distintos, y un entusiasmo genuino por seguir aprendiendo[cite: 1].</p>
     </div>
     """,
         unsafe_allow_html=True,
@@ -481,7 +480,7 @@ if st.session_state.page == "Inicio":
     with s2:
         st.markdown('<div class="stat-box"><div class="num">6</div><div class="lbl">Roles ocupados</div></div>', unsafe_allow_html=True)
     with s3:
-        st.markdown('<div class="stat-box"><div class="num">5</div><div class="lbl">Certificaciones IA 2026</div></div>', unsafe_allow_html=True)
+        st.markdown('<div class="stat-box"><div class="num">8+</div><div class="lbl">Certificaciones & Cursos</div></div>', unsafe_allow_html=True)
     with s4:
         st.markdown('<div class="stat-box"><div class="num">SAVIA</div><div class="lbl">Rol actual: Analista BI</div></div>', unsafe_allow_html=True)
 
@@ -519,9 +518,9 @@ elif st.session_state.page == "Experiencia":
 elif st.session_state.page == "Formación & Cursos":
     st.markdown('<p class="eyebrow">Formación continua</p>', unsafe_allow_html=True)
     st.title("Formación académica y certificaciones")
-    st.write("Bloques de formación académica formal y certificaciones tecnológicas avanzadas.")
+    st.write("Bloques de formación académica formal, cursos especializados en Cloud / BI y certificaciones tecnológicas avanzadas.")
 
-    tab_edu, tab_cert = st.tabs(["🎓 Formación académica", "🤖 Certificaciones IA · 2026"])
+    tab_edu, tab_platzi, tab_cert = st.tabs(["🎓 Formación académica", "☁️ Platzi (AWS, BI & IA)", "🤖 Certificaciones IA · 2026"])
 
     with tab_edu:
         for edu in FORMACION_ACADEMICA:
@@ -553,6 +552,24 @@ elif st.session_state.page == "Formación & Cursos":
                         st.success(f"{len(archivos)} archivo(s) cargado(s) en esta sesión:")
                         for a in archivos:
                             st.write(f"📄 {a.name}")
+
+    with tab_platzi:
+        st.markdown("#### Cursos y Diplomas de Platzi")
+        c_p1, c_p2 = st.columns(2)
+        for i, (titulo, fecha, duracion, categoria, link) in enumerate(CERTIFICACIONES_PLATZI_2025):
+            target = c_p1 if i % 2 == 0 else c_p2
+            with target:
+                st.markdown(
+                    f"""
+                <div class="glass-card">
+                    <span class="tag amber">{categoria}</span>
+                    <h4>{titulo}</h4>
+                    <p class="muted">📅 Aprobado el {fecha} &nbsp;·&nbsp; ⏱️ {duracion}</p>
+                    <p><a href="{link}" target="_blank" style="color:var(--signal); text-decoration:none; font-size:0.85rem;">🔗 Ver perfil de certificaciones online</a></p>
+                </div>
+                """,
+                    unsafe_allow_html=True,
+                )
 
     with tab_cert:
         c1, c2 = st.columns(2)
